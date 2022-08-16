@@ -47,3 +47,28 @@ mysql> DESCRIBE employee_payroll;
 | start  | date         | NO   |     | NULL    |                |
 +--------+--------------+------+-----+---------+----------------+
 4 rows in set (0.01 sec)
+
+
+mysql> DESCRIBE employee_payroll;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| id     | int unsigned | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(50)  | NO   |     | NULL    |                |
+| salary | double       | NO   |     | NULL    |                |
+| start  | date         | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+UC3 -> Inserted employee data in table employee_payroll of payroll_service database
+--------------------------------------------------------------------------------
+
+mysql>  INSERT INTO employee_payroll(name, salary, start) VALUES
+    -> ( 'Priyanka', 100000.00, '2018-01-03' ),
+    -> ( 'Shweta', 200000.00, '2019-11-13' ),
+    -> ( 'Luv', 50000.00, '2020-05-21' );' ),
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
