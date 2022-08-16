@@ -250,3 +250,89 @@ mysql> SELECT gender, COUNT(name) FROM employee_payroll GROUP BY gender;
 | M      |           1 |
 +--------+-------------+
 2 rows in set (0.00 sec)
+--------------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------------------------------------------------------
+UC8 -> Ability to extend employee_payroll data to store employee information like employee phone, address and department
+------------------------------------------------------------------------------------------------------------------------
+
+mysql> DESCRIBE employee_payroll;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| id     | int unsigned | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(50)  | NO   |     | NULL    |                |
+| gender | char(1)      | YES  |     | NULL    |                |
+| salary | double       | NO   |     | NULL    |                |
+| start  | date         | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql>  ALTER TABLE employee_payroll
+    -> ADD phone_number VARCHAR(30)
+    ->  AFTER gender,
+    -> ADD address VARCHAR(150)
+    ->  AFTER phone_number,
+    ->  ADD department VARCHAR(50)
+    ->  AFTER address;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>  DESCRIBE employee_payroll;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id           | int unsigned | NO   | PRI | NULL    | auto_increment |
+| name         | varchar(50)  | NO   |     | NULL    |                |
+| gender       | char(1)      | YES  |     | NULL    |                |
+| phone_number | varchar(30)  | YES  |     | NULL    |                |
+| address      | varchar(150) | YES  |     | NULL    |                |
+| department   | varchar(50)  | YES  |     | NULL    |                |
+| salary       | double       | NO   |     | NULL    |                |
+| start        | date         | NO   |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee_payroll;
++----+----------+--------+--------------+---------+------------+--------+------------+
+| id | name     | gender | phone_number | address | department | salary | start      |
++----+----------+--------+--------------+---------+------------+--------+------------+
+|  1 | Priyanka | F      | NULL         | NULL    | NULL       | 100000 | 2018-01-03 |
+|  2 | Shweta   | F      | NULL         | NULL    | NULL       | 200000 | 2019-11-13 |
+|  3 | Luv      | M      | NULL         | NULL    | NULL       |  50000 | 2020-05-21 |
++----+----------+--------+--------------+---------+------------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE employee_payroll ALTER address SET DEFAULT 'NA';
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE employee_payroll;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id           | int unsigned | NO   | PRI | NULL    | auto_increment |
+| name         | varchar(50)  | NO   |     | NULL    |                |
+| gender       | char(1)      | YES  |     | NULL    |                |
+| phone_number | varchar(30)  | YES  |     | NULL    |                |
+| address      | varchar(150) | YES  |     | NA      |                |
+| department   | varchar(50)  | YES  |     | NULL    |                |
+| salary       | double       | NO   |     | NULL    |                |
+| start        | date         | NO   |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> UPDATE employee_payroll SET address=default;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql>  SELECT * FROM employee_payroll;
++----+----------+--------+--------------+---------+------------+--------+------------+
+| id | name     | gender | phone_number | address | department | salary | start      |
++----+----------+--------+--------------+---------+------------+--------+------------+
+|  1 | Priyanka | F      | NULL         | NA      | NULL       | 100000 | 2018-01-03 |
+|  2 | Shweta   | F      | NULL         | NA      | NULL       | 200000 | 2019-11-13 |
+|  3 | Luv      | M      | NULL         | NA      | NULL       |  50000 | 2020-05-21 |
++----+----------+--------+--------------+---------+------------+--------+------------+
+3 rows in set (0.00 sec)
